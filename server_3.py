@@ -21,12 +21,18 @@ try:
 
         clientsocket.send(bytes("welcome to the server 2", "utf-8"))
 
-        msg=clientsocket.recv(1024)
+        try:
+            msg=clientsocket.recv(1024)
 
-        if msg :
-            print(msg.decode("utf-8"))
-        
-        clientsocket.close()
+            if msg :
+                print(msg.decode("utf-8"))
+
+
+            clientsocket.close()
+
+        except Exception as e:
+            print(e)
+            clientsocket.close()     
 
 except Exception as e:
     print(e)
