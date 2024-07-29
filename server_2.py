@@ -23,6 +23,8 @@ while True:
 
     msg=clientsocket.recv(1024)
 
-    print(msg.decode("utf-8"))
+    if msg :
+        print(msg.decode("utf-8"))
+        
     clientsocket.close()
 
