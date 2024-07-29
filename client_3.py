@@ -1,10 +1,11 @@
 import socket
 
-ip="54.87.142.68"
+ip="10.0.0.28"
+port=8080
 
 mysocket =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-mysocket.connect((socket.gethostname(), 8081))
+mysocket.connect((ip, port))
 
 mysocket.send(bytes("hola mi querido servidor", "utf-8"))
 
