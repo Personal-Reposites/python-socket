@@ -1,5 +1,6 @@
 import socket
 from parse import parser
+import pickle
 
 # Configuración del servidor
 HOST = socket.gethostname()   # Cambiar por la dirección IP del servidor si es necesario
@@ -17,27 +18,44 @@ print('Socket now listening')
 try:
     while True:
         clientsocket, address = server_socket.accept()
+        print("***************** Bloque  *************************")
         print(f"connection from {address} has been established")
         # print('Connected by', address)
 
-        clientsocket.send(bytes("welcome to the server 2", "utf-8"))
+        clientsocket.send(bytes("OK", "utf-8"))
 
         try:
             msg=clientsocket.recv(1024)
+            
+            print(f"{msg} \n")
+
+            try:
+                print(f"{pickle.loads(msg)} \n")
+            except Exception as et:
+                print(f"Error pikcle: {et} \n")
+
+                try:
+                    print(msg.hex())
+                except Exception as eh:
+                    print(f"Error hex: {eh} \n")
+
 
             if msg :
 
 
                 f = open("parsed", "a+")
+                
 
                 try:
                     if msg.decode("utf-8").split(',')[0] =='*HQ':
                         converted=parser(msg.decode("utf-8"))
-
+                        
+                        f.write("{ \n")
                         f.write(f"id: {converted['id']} \n")
                         f.write(f"coordenates: {converted['coordenates']} \n")
                         f.write(f"date: {converted['date']} \n")
-                        f.write(f"time: {converted['time']} \n\n")
+                        f.write(f"time: {converted['time']} \n")
+                        f.write("} \n")
 
                         print("saved")
                         f.close()
@@ -50,7 +68,7 @@ try:
                     f.close()
                     clientsocket.close()
 
-
+            print("------------------- FIN Bloque ------------------\n")
             clientsocket.close()
 
         except Exception as e:
